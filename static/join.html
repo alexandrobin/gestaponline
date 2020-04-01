@@ -1,0 +1,28 @@
+Join the game !
+<head>
+    <title id="title"></title>
+    <h1 id="name"></h1>
+    <form action='/joinsession' method="post">
+        <label for="pseudo">Choose a nickname</label><input type="text" id="pseudo" name="pseudo"><br>
+    <input style="display:none" id="idInput"  name="session" type="text" value =""></input>
+        <input type="submit"  value="Join the party !">
+    </form>
+    
+</head>
+
+
+<script>
+    console.log(window.location.href)
+    let rgx = /(\w+)$/
+    let id = window.location.href.match(rgx)[0]
+    document.getElementById('idInput').value=id
+    fetch(`/api/session/${id}`)
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        console.log(data)
+        document.getElementById("name").textContent = data.name
+        document.getElementById("title").textContent = data.name + " - Gestaponline"
+    })    
+</script>

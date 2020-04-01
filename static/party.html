@@ -1,0 +1,60 @@
+Here is the page of the game
+<h1 id="name"></h1>
+
+<h2>Invite players : </h2>
+<a id="link" href=""><p id="linktext"></p></a>
+
+<h2>List of connected users</h2>
+<div id="users">
+
+
+</div>
+<div>
+    ░░░░░░░░░░░░░░░░░░░░░░░░░░░
+    ░░░░▓▓▀▀██████▓▄▒▒░░░░░░░░░
+    ░░░▀░░░░░░▀▀▀████▄▒░░░░░░░░
+    ░░▌░░░░░░░░░░░▀███▓▒░░░░░░░
+    ░▌░░░░░▄▄▄░░░░░░▐█▓▒░░░░░░░
+    ░▄▓▀█▌░▀██▀▒▄░░░▐▓▓▓▒░░░░░░
+    ░█▌░░░░░▀▒░░░▀░░░▐▓▒▒░░░░░░
+    ░▌▀▒▄▄░░░░░░░░░░░░░▄▒░░░░░░
+    ░▒▄█████▌▒▒█░█▀▀░░░▒▌▒░░░░░
+    ░░▓█████▄▒░▀▀█▀█░░░▐░░░░░░░
+    ░░▒▀▓▒▒▒░░░▀▀▀░▀▒▒░▒▒▒▄░░░░
+    ░░▓▒▒▒░░░░░░▒▒▒▒▒░▓░░░░░░░░
+    ░░████▄▄▄▄▓▓▓▒▒░░▐░░░░░░░░░
+    ░░░▀██████▓▒▒▒▒▒░▐░░░░░░░░░
+</div>
+
+
+
+<script>
+    console.log(window.location.href)
+    let rgx = /(\w+)$/
+    let id = window.location.href.match(rgx)[0]
+    fetch(`/api/user/${id}`)
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        fetch(`/api/session/${data.session}`)
+        .then((response)=> {
+            return response.json()  
+        })
+        .then((data) => {
+            document.getElementById("name").textContent = data.name
+            document.getElementById("link").href = `/join/${data._id}`
+            document.getElementById("linktext").textContent = `/join/${data._id}`
+        })
+        
+    })
+    
+    fetch(`/api/getusers/${id}`)
+    .then((response) => {
+        response.json()
+    })
+    .then((data) => {
+        document.getElementById("users").textContent = data
+    })
+    
+</script>
