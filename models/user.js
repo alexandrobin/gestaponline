@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  pseudo:{type:String,required:true},
+  pseudo:{type:String,required:false},
   political:String, //Liberal or Fascist
   isHitler: Boolean, //0 == Not Hitler / 1 == is Hitler
   isPresident:Boolean, //0 == Not President / 1 == is President

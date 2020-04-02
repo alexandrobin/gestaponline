@@ -6,6 +6,7 @@ var http = require('http');
 var path = require('path');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');
+var cors = require('cors')
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
@@ -25,9 +26,11 @@ mongoose.connect(mongoDB,{useNewUrlParser:true})
 var db = mongoose.connection
 
 app.set('port', 5000);
+app.use(cors())
 app.use('/static', express.static(__dirname + '/static'));
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(function(req,res,next) {
     req.io=io;
     next()
@@ -65,17 +68,19 @@ app.get('/join/:_id', (req,res)=>{
 
 
 app.post('/createsession', (req,res) => {
+    console.log(req.body)
     let {pseudo,name} = req.body
     let adminID, sessionID
     User.create({pseudo:pseudo},(err,small) => {
-        if (err) return (handleError(err))
+        if (err) return console.error(err)
         adminID = small._id
         Session.create({name:name,isAdmin:adminID},(err,small) =>{
-            if (err) return (handledError(err))
+            if (err) return console.error(err)
             sessionID = small._id 
             User.findByIdAndUpdate(adminID,{session:sessionID}, (err, small) => {
-                if (err) return (handledError(err))
-                res.redirect(`/user/${adminID}`);
+                if (err) return console.error(err)
+                res.json(small)
+                // res.redirect(`/user/${adminID}`);
             })
             
         })  

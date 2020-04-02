@@ -8,7 +8,7 @@ var SessionSchema = new Schema({
   numberOfPlayers: Number,
   turn:{type:Number,default:0},
   numberOfLiberalCards:{type:Number,default:6},
-  numberOfFascistCards:{type:Number,default:12},
+  numberOfFascistCards:{type:Number,default:11},
   isAdmin: {type:Schema.Types.ObjectId, model:'user'},
   created: {type:Date,default:Date.now()},
   updated:{type:Date,default:Date.now()}
